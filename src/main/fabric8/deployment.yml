@@ -1,0 +1,28 @@
+spec:
+  template:
+    spec:
+      volumes:
+      - name: data-at-rest-crypto
+        secret:
+          defaultMode: 420
+          secretName: data-at-rest-crypto-keys
+      containers:
+      - volumeMounts:
+        - name: data-at-rest-crypto
+          readOnly: true
+          mountPath: /etc/secrets/data-at-rest
+        resources:
+          requests:
+            cpu: '0.2'
+            memory: 256Mi
+          limits:
+            cpu: '1.0'
+            memory: 256Mi
+        env:
+        - name: SPRING_APPLICATION_JSON
+          value: '{"server":{"undertow":{"io-threads":1, "worker-threads":2 }}}'
+        - name: DATA_AT_REST_KEYSTORE_PW
+          valueFrom:
+            secretKeyRef:
+              name: data-at-rest-crypto-keys
+              key: keyStorePassword

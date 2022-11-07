@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: fhb-fis-o-rollback-transfer
+  name: fhb-fis-o-rollback-transfer
+data:
+  application.properties: |-
+    camel.springboot.tracing=false
+    camel.component.servlet.mapping.enabled=true
+    camel.component.servlet.mapping.context-path=/target/*
+    camel.opentracing.encoding=true
+    #sensitive.masking.ext=
+    #headers.whitelist.ext=
+
+    oab.deadEndpoint=log:foo?logMask=true
+
+    server.undertow.io-threads=8
+    server.undertow.worker-threads=50
+    camel.component.http4.connections-per-route=150
+    camel.component.http4.max-total-connections=600
+    custom.threadpool.profile.poolSize=50
+    custom.threadpool.profile.maxPoolSize=150
+    custom.threadpool.profile.maxQueueSize=10
+    camel.component.http4.connection-time-to-live=12500
+    camel.component.http4.connection-request-timeout=1500
+    camel.component.http4.socket-timeout=12500
+    camel.component.http4.connect-timeout=1500

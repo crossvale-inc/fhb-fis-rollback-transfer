@@ -1,0 +1,29 @@
+permanentProjects:
+  # DEV Environment
+  - environment: 'sandbox'
+    branchName: 'feature.*'
+    isBranchNameRegex: true
+    ocpProjectName: 'fhb-fis-sandbox'
+    ocpDcName: 'fhb-fis-o-rollback-transfer'
+    ocpDeploymentStrategy: 'single'
+    sourceImageStreamUrl: 'image-registry.openshift-image-registry.svc:5000/cicd-secure-docker/fhb-fis-o-rollback-transfer' # Deprecated
+    deploymentTemplate: 'app-template.yaml'
+    imagePromotable: false
+    automaticDeployment: true
+  - environment: 'dev'
+    branchName: 'develop|bugfix.*'
+    isBranchNameRegex: true
+    ocpProjectName: 'fhb-fis-dev'
+    ocpDcName: 'fhb-fis-o-rollback-transfer'
+    ocpDeploymentStrategy: 'single'
+    sourceImageStreamUrl: 'image-registry.openshift-image-registry.svc:5000/cicd-secure-docker/fhb-fis-o-rollback-transfer' # Deprecated
+    deploymentTemplate: 'app-template-tracing.yaml'
+    imagePromotable: false
+    automaticDeployment: true
+  # Not deployed, configures ci to create a promotable image
+  - environment: 'release-creation'
+    branchName: '[0-9]*[.][0-9]*[.][0-9]*[-]RELEASE'
+    isBranchNameRegex: true
+    imagePromotable: true
+    automaticDeployment: false
+    sourceImageStreamUrl: 'image-registry.openshift-image-registry.svc:5000/cicd-secure-docker/fhb-fis-o-rollback-transfer' # Deprecated
