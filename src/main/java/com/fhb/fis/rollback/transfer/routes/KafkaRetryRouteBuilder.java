@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.fhb.fis.camel.builder.OABServiceRouteBuilder;
-import com.fhb.fis.camel.processor.EnvelopeWrapperProcessor;
 import com.fhb.fis.kafka.model.KafkaConstants;
 import com.fhb.fis.kafka.processor.KafkaRetriesProcessor;
 import com.fhb.fis.rollback.transfer.util.Constants;
