@@ -68,8 +68,16 @@ public class Application {
     public RoutesBuilder hardPostingTableUpdateRouteBuilder() {
         return new IBSServiceRouteBuilder("putInternalTransferPostingIxpid", 
                 "{{hard-posting-update.version}}", 
-                Constants.PUT_BIC_OPERATION, 
+                Constants.PUT_BIC_OPERATION_URI, 
                 "{{bic.bridge.endpoint}}");
+    }
+
+    @Bean
+    public RoutesBuilder onlineDollarTransactionsRouteBuilder() {
+        return new IBSServiceRouteBuilder("postOnlineDollarTransactions", 
+                "{{online-dollar-transactions.version}}", 
+                "postOnlineDollarTransactions", 
+                "{{deposits.bridge.endpoint}}");
     }
     
     @Bean
@@ -98,7 +106,7 @@ public class Application {
     @Bean
     EnvelopeWrapperProcessor envelopeWrapper() {
         return new EnvelopeWrapperProcessor()
-                .withAdditionalRetainedHeaders(Constants.UUID_HEADER,BusinessExceptionHeader.HEADER_BUSINESS_EX_MICROSERVICE);
+                .withAdditionalRetainedHeaders(Constants.UUID_HEADER,BusinessExceptionHeader.HEADER_BUSINESS_EX_MICROSERVICE);//Add headers before sending to 
     }
 
     @Bean

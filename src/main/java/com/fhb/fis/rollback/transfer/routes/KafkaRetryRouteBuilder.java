@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.fhb.fis.camel.builder.OABServiceRouteBuilder;
+import com.fhb.fis.camel.processor.EnvelopeWrapperProcessor;
 import com.fhb.fis.kafka.model.KafkaConstants;
 import com.fhb.fis.kafka.processor.KafkaRetriesProcessor;
 import com.fhb.fis.rollback.transfer.util.Constants;
@@ -30,7 +31,7 @@ public class KafkaRetryRouteBuilder extends OABServiceRouteBuilder{
         configureEntryRoute(from(KAFKA_RETRY_URI).routeId(KAFKA_RETRY_ID));
         configureFault(from(SET_FAULT_INFO_ROUTE_URI).routeId(SET_FAULT_INFO_ROUTE_ID));
     }
-
+    //TODO 
     @Override
     public void configureEntryRoute(RouteDefinition fromEntry) {
         fromEntry
@@ -38,8 +39,10 @@ public class KafkaRetryRouteBuilder extends OABServiceRouteBuilder{
             .setHeader(KafkaConstants.RETRIES_HEADER, constant(0))
         .end()
         .choice()
+            //.process(EnvelopeWrapperProcessor)
             .when().simple("${header["+KafkaConstants.RETRIES_HEADER+"]} < {{kafka.retries}}")
                 .process(KafkaRetriesProcessor.BEAN_NAME)
+                .setBody(exchangeProperty(Constants.REQUEST_BODY))
                 .to(ReceiveKafkaEventRouteBuilder.KAFKA_ENTRY_URI)
             .endChoice()
             .otherwise()

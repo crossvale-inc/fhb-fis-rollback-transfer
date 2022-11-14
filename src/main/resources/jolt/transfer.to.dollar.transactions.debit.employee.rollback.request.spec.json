@@ -1,0 +1,15 @@
+[
+	{
+		"operation": "shift",
+		"spec": {
+			"fromAccount": "online-dollar-transaction.accountNr",
+			"#R": "online-dollar-transaction.transactionPostedType",
+			"debitTransactionCode": "online-dollar-transaction.transactionCode",
+			"debitTransactionSourceCode": "online-dollar-transaction.transactionSourceCode",
+			"debitTransactionControlNumber": "online-dollar-transaction.transactionControlNr",
+			"amount": "online-dollar-transaction.transactionAmount",
+			"#3": "online-dollar-transaction.overrideIndicator",
+            "#1": "online-dollar-transaction.transactionSecurityIndicator"
+		}
+	}
+]

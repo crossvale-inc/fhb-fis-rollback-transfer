@@ -1,0 +1,28 @@
+target/
+pom.xml.*
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
+!/.mvn/wrapper/maven-wrapper.jar
+
+.classpath
+.factorypath
+.project
+!.gitkeep
+*.iml
+*.log
+*.swp
+.apt_generated/
+.apt_generated_tests/
+.idea/
+.metadata/
+.settings/
+bugs/
+
+# bug in Codeready Studio's Maven project creation wizard?
+/src/main/java/META-INF/
+
+*-release.sh

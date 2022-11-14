@@ -17,7 +17,7 @@ public class Constants {
     public static final String BIC_OPERATION_ID = "postTransfers";
 
     //
-    public static final String PUT_BIC_OPERATION = "direct:putInternalTransferPostingIxpid";
+    public static final String PUT_BIC_OPERATION_URI = "direct:putInternalTransferPostingIxpid";
     public static final String REQUEST_BODY = "requestBody";
     //
     public static final String DEBIT_HARD_POSTING_INTERNAL_ID = "debitHardPostingInternalId";
@@ -56,9 +56,10 @@ public class Constants {
     public static final String FAULT_ERROR_CODE = "faultErrorCode";
     public static final String FAULT_CODE = "faultCode";
     public static final String FAULT_MESSAGE = "faultMessage";
-
+    public static final String FAULT_STAGE = "faultStage";
 
     public static final String APP_CODE = "applicationCode";
     public static final String HEADER_MICROSERVICE = "microservice";
+    public static final String MARK_POSTING_TABLE_CREDIT_AS_FAILED_PROPERTY = null;
 
 }
