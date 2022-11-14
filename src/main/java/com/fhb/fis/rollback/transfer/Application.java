@@ -21,6 +21,7 @@ import com.fhb.fis.camel.processor.SensitiveDataMaskingFormatter;
 import com.fhb.fis.crypto.DataAtRestCryptoConfig;
 import com.fhb.fis.crypto.DataAtRestCryptoDataFormat;
 import com.fhb.fis.kafka.processor.KafkaRetriesProcessor;
+import com.fhb.fis.kafka.serialization.KafkaHeaderDeserializerImpl;
 import com.fhb.fis.model.BusinessExceptionHeader;
 import com.fhb.fis.model.CommonInputHeader;
 import com.fhb.fis.model.MessagingInfrastructureHeader;
@@ -117,6 +118,11 @@ public class Application {
     @Bean(KafkaRetriesProcessor.BEAN_NAME)
     public KafkaRetriesProcessor kafkaRetriesProcessor(){
         return new KafkaRetriesProcessor();
+    }
+
+    @Bean
+    public KafkaHeaderDeserializerImpl kafkaHeaderDeserializerImpl(){
+        return new KafkaHeaderDeserializerImpl(DataAtRestCryptoDataFormat.DATA_AT_REST_CIPHER_IV_LENGTH);
     }
 
 }
