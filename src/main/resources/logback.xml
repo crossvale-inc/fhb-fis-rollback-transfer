@@ -14,7 +14,7 @@
     </appender>
 
     <logger
-        name="com.fhb.fis.bic"
+        name="com.fhb.fis.rollback"
         level="info"
         additivity="false"
     >
