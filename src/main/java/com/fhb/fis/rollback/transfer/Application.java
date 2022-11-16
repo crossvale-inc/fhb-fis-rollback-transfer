@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import com.fhb.fis.camel.builder.OABServiceRouteBuilder;
+import com.fhb.fis.camel.formatter.KafkaCryptoFormatter;
 import com.fhb.fis.camel.impl.DynamicWhiteListHeaderFilterStrategy;
 import com.fhb.fis.camel.processor.EnvelopeWrapperProcessor;
 import com.fhb.fis.camel.processor.SensitiveDataMaskingFormatter;
@@ -123,6 +124,11 @@ public class Application {
     @Bean
     public KafkaHeaderDeserializerImpl kafkaHeaderDeserializerImpl(){
         return new KafkaHeaderDeserializerImpl(DataAtRestCryptoDataFormat.DATA_AT_REST_CIPHER_IV_LENGTH);
+    }
+
+    @Bean
+    public KafkaCryptoFormatter kafkaCryptoFormatter(){
+        return new KafkaCryptoFormatter();
     }
 
 }
