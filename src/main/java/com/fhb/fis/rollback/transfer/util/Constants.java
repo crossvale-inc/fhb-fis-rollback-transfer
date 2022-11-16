@@ -60,6 +60,7 @@ public class Constants {
 
     public static final String APP_CODE = "applicationCode";
     public static final String HEADER_MICROSERVICE = "microservice";
-    public static final String MARK_POSTING_TABLE_CREDIT_AS_FAILED_PROPERTY = null;
+    public static final String MARK_POSTING_TABLE_DEBIT_AS_FAILED_PROPERTY = "shouldMarkPostingTableDebitAsFailed";
+    public static final String MARK_POSTING_TABLE_CREDIT_AS_FAILED_PROPERTY = "shouldMarkPostingTableCreditFailed";
 
 }

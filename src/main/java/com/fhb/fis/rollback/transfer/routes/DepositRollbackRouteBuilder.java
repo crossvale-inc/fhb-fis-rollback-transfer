@@ -38,7 +38,7 @@ public class DepositRollbackRouteBuilder extends RouteBuilder {
         fromDoRollbackCreditDeposit(from(DO_ROLLBACK_CREDIT_DEPOSIT_URI).routeId(DO_ROLLBACK_CREDIT_DEPOSIT_ID));
         fromDoRollbackCreditEmployee(from(DO_ROLLBACK_EMPLOYEE_CREDIT_DEPOSIT_URI).routeId(DO_ROLLBACK_EMPLOYEE_CREDIT_DEPOSIT_ID));
         
-        fromDoRollbackDebitDeposit(from(DO_ROLLBACK_DEBIT_DEPOSIT_URI));
+        fromDoRollbackDebitDeposit(from(DO_ROLLBACK_DEBIT_DEPOSIT_URI).routeId(DO_ROLLBACK_DEBIT_DEPOSIT_ID));
         fromDoRollbackDebitEmployee(from(DO_ROLLBACK_EMPLOYEE_DEBIT_DEPOSIT_URI).routeId(DO_ROLLBACK_EMPLOYEE_DEBIT_DEPOSIT_ID));
     }
 
