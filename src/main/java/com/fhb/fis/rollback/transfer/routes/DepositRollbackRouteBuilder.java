@@ -5,12 +5,13 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.RouteDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.fhb.fis.model.CommonInputHeader;
 import com.fhb.fis.rollback.transfer.exceptions.ErrorCode;
 import com.fhb.fis.rollback.transfer.util.Constants;
 import com.fhb.fis.rollback.transfer.util.Constants;
-
+@Component
 public class DepositRollbackRouteBuilder extends RouteBuilder {
 
     
