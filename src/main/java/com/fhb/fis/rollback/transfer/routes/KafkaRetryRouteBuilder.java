@@ -26,7 +26,8 @@ public class KafkaRetryRouteBuilder extends OABServiceRouteBuilder{
     public static final Logger LOGGER = LoggerFactory.getLogger(KafkaRetryRouteBuilder.class);
 
     @Override
-    public void configure(){
+    public void configure() throws Exception{
+        super.configure();
         configureEntryRoute(from(KAFKA_RETRY_URI).routeId(KAFKA_RETRY_ID));
         configureFault(from(SET_FAULT_INFO_ROUTE_URI).routeId(SET_FAULT_INFO_ROUTE_ID));
     }

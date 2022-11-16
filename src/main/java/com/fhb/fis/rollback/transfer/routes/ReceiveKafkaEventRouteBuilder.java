@@ -23,7 +23,7 @@ public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 	@Override
 	public void configure() throws Exception {
 		this.errorHandler(noErrorHandler());
-
+		super.configure();
 		configureEntryRoute(from(KAFKA_ENTRY_URI)
 				.routeId(KAFKA_ENTRY_ID));
 	}
