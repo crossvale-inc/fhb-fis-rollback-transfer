@@ -39,7 +39,7 @@ public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 				.endChoice()
 			.end()
 			.filter(method(MessageFilterDate.class,"isAfterHeaderLimit").isEqualTo(Boolean.TRUE))//Kafka to envelop wrapper
-			.log(LoggingLevel.INFO,LOGGER,"Receiving Kafka event")
+			.log(LoggingLevel.INFO,LOGGER,"Receiving Kafka event headers:${headers}, body: ${body}")
 				.choice()
 					.when(PredicateBuilder.and(header(KafkaConstants.ACCCOUNT_TYPE).isEqualTo(KafkaConstants.DEPOSITS),header(KafkaConstants.TYPE).isEqualTo(KafkaConstants.CREDIT)))
 						.to(DepositRollbackRouteBuilder.DO_ROLLBACK_CREDIT_DEPOSIT_URI)
