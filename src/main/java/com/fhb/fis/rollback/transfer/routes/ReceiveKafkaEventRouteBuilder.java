@@ -65,16 +65,16 @@ public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 			.when(PredicateBuilder.and(header(KafkaConstants.ACCCOUNT_TYPE).isEqualTo(KafkaConstants.LOANS),header(KafkaConstants.TYPE).isEqualTo(KafkaConstants.CREDIT)))
 				.to("direct:LoansNoteRouteBuilder.DO_ROLLBACK_CREDIT_DEPOSIT_URI")
 			.endChoice()
-				.when(PredicateBuilder.and(header(KafkaConstants.ACCCOUNT_TYPE).isEqualTo(KafkaConstants.LOANS),header(KafkaConstants.TYPE).isEqualTo(KafkaConstants.DEBIT)))
+			.when(PredicateBuilder.and(header(KafkaConstants.ACCCOUNT_TYPE).isEqualTo(KafkaConstants.LOANS),header(KafkaConstants.TYPE).isEqualTo(KafkaConstants.DEBIT)))
 				.to("direct:LoansNoteRouteBuilder.DO_ROLLBACK_CREDIT_DEPOSIT_URI")
 			.endChoice()
-				.when(PredicateBuilder.and(header(KafkaConstants.ACCCOUNT_TYPE).isEqualTo(KafkaConstants.LOANS_NOTE),header(KafkaConstants.TYPE).isEqualTo(KafkaConstants.CREDIT)))
+			.when(PredicateBuilder.and(header(KafkaConstants.ACCCOUNT_TYPE).isEqualTo(KafkaConstants.LOANS_NOTE),header(KafkaConstants.TYPE).isEqualTo(KafkaConstants.CREDIT)))
 				.to("direct:LoansNoteRouteBuilder.DO_ROLLBACK_CREDIT_DEPOSIT_URI")
 			.endChoice()
-				.when(PredicateBuilder.and(header(KafkaConstants.ACCCOUNT_TYPE).isEqualTo(KafkaConstants.LOANS_NOTE),header(KafkaConstants.TYPE).isEqualTo(KafkaConstants.DEBIT)))
+			.when(PredicateBuilder.and(header(KafkaConstants.ACCCOUNT_TYPE).isEqualTo(KafkaConstants.LOANS_NOTE),header(KafkaConstants.TYPE).isEqualTo(KafkaConstants.DEBIT)))
 				.to("direct:LoansNoteRouteBuilder.DO_ROLLBACK_CREDIT_DEPOSIT_URI")
 			.endChoice()
-		.end()
+		.end();
 	}
 	
 }
