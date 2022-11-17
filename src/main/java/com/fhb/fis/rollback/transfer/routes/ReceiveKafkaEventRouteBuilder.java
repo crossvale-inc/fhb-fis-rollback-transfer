@@ -38,18 +38,18 @@ public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 	@Override
 	public void configureEntryRoute(RouteDefinition fromKafka) {
         fromKafka
-		.log(LoggingLevel.INFO,LOGGER,"Initializing Kafka ")
+		.log(LoggingLevel.INFO,LOGGER,"Initializing Kafka, headers: ${headers}, body:${body}")
 		.choice()
 			.when(method(MessageFilterDate.class,"isAfterHeaderLimit").isEqualTo(Boolean.FALSE))//Kafka to envelop wrapper
-				.log(LoggingLevel.INFO,LOGGER,"Receiving Kafka event")
+				.log(LoggingLevel.INFO,LOGGER,"Receiving Kafka event headers: ${headers}, body:${body}")
 				.to(KAFKA_ENTRY_URI)
 			.endChoice()
 			.otherwise()
 				.to(ROLLBACK_ENTRY_URI)
 			.endChoice()
 		.end()
-			.log(LoggingLevel.INFO,LOGGER,"Kafka event processed")
-			;
+		.log(LoggingLevel.INFO,LOGGER,"Kafka event processed headers: ${headers}, body:${body}")
+		;
 	}
 
 	public void configureExecuteRollbackRoute(RouteDefinition fromEntry){
