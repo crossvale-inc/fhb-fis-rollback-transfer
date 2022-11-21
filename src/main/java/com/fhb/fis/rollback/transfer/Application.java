@@ -17,6 +17,7 @@ import org.springframework.core.env.Environment;
 import com.fhb.fis.camel.builder.OABServiceRouteBuilder;
 import com.fhb.fis.camel.formatter.KafkaCryptoFormatter;
 import com.fhb.fis.camel.impl.DynamicWhiteListHeaderFilterStrategy;
+import com.fhb.fis.camel.processor.EnvelopeUnwrapperProcessor;
 import com.fhb.fis.camel.processor.EnvelopeWrapperProcessor;
 import com.fhb.fis.camel.processor.SensitiveDataMaskingFormatter;
 import com.fhb.fis.crypto.DataAtRestCryptoConfig;
@@ -110,6 +111,11 @@ public class Application {
         return new EnvelopeWrapperProcessor()
                 .withAdditionalRetainedHeaders(Constants.UUID_HEADER,BusinessExceptionHeader.HEADER_BUSINESS_EX_MICROSERVICE);//Add headers before sending to 
     }
+    
+    @Bean
+    EnvelopeUnwrapperProcessor envelopeUnWrapper() {
+        return new EnvelopeUnwrapperProcessor();
+    }
 
     @Bean
     Supplier<String> auditTrailIdSupplier() {
@@ -123,7 +129,7 @@ public class Application {
 
     @Bean
     public KafkaHeaderDeserializerImpl kafkaHeaderDeserializerImpl(){
-        return new KafkaHeaderDeserializerImpl(DataAtRestCryptoDataFormat.DATA_AT_REST_CIPHER_IV_LENGTH,"amount","debitBicId","Service-Execution-End","Service-Execution-Overhead","Service-Execution-Start","Service-Execution-Time");
+        return new KafkaHeaderDeserializerImpl(DataAtRestCryptoDataFormat.DATA_AT_REST_CIPHER_IV_LENGTH);
     }
 
     @Bean

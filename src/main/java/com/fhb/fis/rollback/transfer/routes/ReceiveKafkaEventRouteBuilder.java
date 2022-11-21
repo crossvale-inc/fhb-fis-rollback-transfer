@@ -38,6 +38,8 @@ public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 	@Override
 	public void configureEntryRoute(RouteDefinition fromKafka) {
         fromKafka
+		.process("envelopeUnWrapper")
+		.marshal().string()
 		.log(LoggingLevel.INFO,LOGGER,"Initializing Kafka, headers: ${headers}, body:${body}")
 		.choice()
 			.when(method(MessageFilterDate.class,"isAfterHeaderLimit").isEqualTo(Boolean.FALSE))//Kafka to envelop wrapper
