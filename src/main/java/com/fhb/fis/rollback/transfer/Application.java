@@ -123,7 +123,7 @@ public class Application {
 
     @Bean
     public KafkaHeaderDeserializerImpl kafkaHeaderDeserializerImpl(){
-        return new KafkaHeaderDeserializerImpl(DataAtRestCryptoDataFormat.DATA_AT_REST_CIPHER_IV_LENGTH);
+        return new KafkaHeaderDeserializerImpl(DataAtRestCryptoDataFormat.DATA_AT_REST_CIPHER_IV_LENGTH,"amount","debitBicId","Service-Execution-End","Service-Execution-Overhead","Service-Execution-Start","Service-Execution-Time");
     }
 
     @Bean
