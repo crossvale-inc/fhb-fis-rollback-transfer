@@ -137,4 +137,8 @@ public class Application {
         return new KafkaCryptoFormatter();
     }
 
+    @Bean
+    public RoutesBuilder multiOrchestratedServiceRouteBuilder() {
+        return new MultiOrchestratedServiceRouteBuilder(new NoErrorHandlerBuilder());
+    }
 }

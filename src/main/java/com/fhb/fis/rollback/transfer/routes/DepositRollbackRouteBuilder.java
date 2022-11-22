@@ -102,7 +102,7 @@ public class DepositRollbackRouteBuilder extends RouteBuilder {
         //Rollback debit
         public void fromDoRollbackDebitDeposit(RouteDefinition fromEntry){
             fromEntry
-            .log(LoggingLevel.INFO,LOGGER,"{\"Stage\":\"Initializing\",\"method\":\"rollbackCreditDeposit\"}")
+            .log(LoggingLevel.INFO,LOGGER,"{\"Stage\":\"Initializing\",\"method\":\"rollbackDebitDeposit\"}")
         .to("{{jolt.transfer.to.dollar.transactions.debit.rollback.request.spec}}")
         .to("direct:postOnlineDollarTransactions")
         //In case of error, get error code
