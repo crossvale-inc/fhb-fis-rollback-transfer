@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.fhb.fis.model.CommonInputHeader;
 import com.fhb.fis.rollback.transfer.exceptions.ErrorCode;
+import com.fhb.fis.rollback.transfer.exceptions.OrchestratedServiceException;
 import com.fhb.fis.rollback.transfer.util.Constants;
 import com.fhb.fis.rollback.transfer.util.Constants;
 @Component
@@ -35,6 +36,9 @@ public class DepositRollbackRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         
+        onException(Exception.class)
+            .to(KafkaRetryRouteBuilder.KAFKA_RETRY_URI)
+        .end();
         fromDoRollbackCreditDeposit(from(DO_ROLLBACK_CREDIT_DEPOSIT_URI).routeId(DO_ROLLBACK_CREDIT_DEPOSIT_ID));
         fromDoRollbackCreditEmployee(from(DO_ROLLBACK_EMPLOYEE_CREDIT_DEPOSIT_URI).routeId(DO_ROLLBACK_EMPLOYEE_CREDIT_DEPOSIT_ID));
         
@@ -70,6 +74,7 @@ public class DepositRollbackRouteBuilder extends RouteBuilder {
                 .setProperty(Constants.STATUS_CODE).jsonpath("$.fault.transportErrorCode", true)
                 .setProperty(Constants.FAULT_STAGE,constant(ErrorCode.ROLLBACK_CREDIT_POST_FAILED))
                 .log(LoggingLevel.ERROR, LOGGER, "{\"Stage\":\"Error\", \"logMessage\": \"Exception thrown by the online dollar transaction service: rollback process failure. HTTP=${exchangeProperty[statusCode]}, Error=${exchangeProperty[faultCode]}-${exchangeProperty[faultMessage]}\", \"method\":\"/${header[appPath]}.\", \"channel\":\"${header["+CommonInputHeader.APP_CODE+"]}\", \"customerNr\":\"${property[customerNr]}\", \"amount\":\"${property[amount]}\", \"fromAccount\":\"${property[fromAccount]}\", \"fromAccountType\":\"${property[fromAccountType]}\", \"toAccount\":\"${property[toAccount]}\", \"ToAccountType\":\"${property[toAccountType]}\", \"platform\":\"${header["+Constants.CARD_PLATFORM_PROPERTY+"]}\", \"debitBicId\":\"${property[debitHardPostingInternalId]}\", \"creditBicId\":\"${property[creditHardPostingInternalId]}\", \"statusCode\":\"${header["+Constants.STATUS_CODE+"]}\",\"ibsOperationId\":\"${property["+Constants.IBS_OPERATION_HEADER+"]}\", \"errorCode\":\"${header["+Constants.FAULT_CODE+"]}\", \"errorMessage\":\"${header["+Constants.FAULT_MESSAGE+"]}\"}")
+                .throwException(new OrchestratedServiceException(ErrorCode.ROLLBACK_DEBIT_POST_FAILED))
             .endChoice()
             .otherwise()
                 .log(LoggingLevel.INFO, LOGGER, "Deposit rollback executed")
@@ -126,7 +131,7 @@ public class DepositRollbackRouteBuilder extends RouteBuilder {
                     .setProperty(Constants.STATUS_CODE).jsonpath("$.fault.transportErrorCode", true)
                     .setProperty(Constants.FAULT_STAGE,constant(ErrorCode.ROLLBACK_DEBIT_POST_FAILED))
                     .log(LoggingLevel.ERROR, LOGGER, "{\"Stage\":\"Error\", \"logMessage\": \"Exception thrown by the online dollar transaction service: rollback process failure. HTTP=${exchangeProperty[statusCode]}, Error=${exchangeProperty[faultCode]}-${exchangeProperty[faultMessage]}\", \"method\":\"/${header[appPath]}.\", \"channel\":\"${exchangeProperty["+CommonInputHeader.APP_CODE+"]}\", \"customerNr\":\"${property[customerNr]}\", \"amount\":\"${property[amount]}\", \"fromAccount\":\"${property[fromAccount]}\", \"fromAccountType\":\"${property[fromAccountType]}\", \"toAccount\":\"${property[toAccount]}\", \"ToAccountType\":\"${property[toAccountType]}\", \"platform\":\"${exchangeProperty["+Constants.CARD_PLATFORM_PROPERTY+"]}\", \"debitBicId\":\"${property[debitHardPostingInternalId]}\", \"creditBicId\":\"${property[creditHardPostingInternalId]}\", \"statusCode\":\"${exchangeProperty["+Constants.STATUS_CODE+"]}\",\"ibsOperationId\":\"${property["+Constants.IBS_OPERATION_HEADER+"]}\", \"errorCode\":\"${exchangeProperty["+Constants.FAULT_CODE+"]}\", \"errorMessage\":\"${exchangeProperty["+Constants.FAULT_MESSAGE+"]}\"}")
-                    .to(KafkaRetryRouteBuilder.KAFKA_RETRY_URI)
+                    .throwException(new OrchestratedServiceException(ErrorCode.ROLLBACK_DEBIT_POST_FAILED))
                 .endChoice()
                 .otherwise()
                     .log(LoggingLevel.INFO, LOGGER, "Deposit rollback executed")
