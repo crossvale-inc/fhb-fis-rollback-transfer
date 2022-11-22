@@ -26,6 +26,7 @@ import com.fhb.fis.crypto.DataAtRestCryptoDataFormat;
 import com.fhb.fis.kafka.processor.KafkaRetriesProcessor;
 import com.fhb.fis.kafka.serialization.KafkaHeaderDeserializerImpl;
 import com.fhb.fis.model.BusinessExceptionHeader;
+import com.fhb.fis.model.CacheConstants;
 import com.fhb.fis.model.CommonInputHeader;
 import com.fhb.fis.model.MessagingInfrastructureHeader;
 import com.fhb.fis.rollback.transfer.routes.IBSServiceRouteBuilder;
@@ -49,7 +50,24 @@ public class Application {
     DataAtRestCryptoConfig dataAtRestCryptoConfig() {
         return new DataAtRestCryptoConfig();
     }
-    
+
+    @Bean
+    public DynamicWhiteListHeaderFilterStrategy headersWhiteList(
+            CamelContext camelContext) throws IOException {
+        return new DynamicWhiteListHeaderFilterStrategy(CommonInputHeader.APP_CODE, 
+                CommonInputHeader.AUDIT_TRAIL_ID,
+                MessagingInfrastructureHeader.OPERATION_ID,
+                Constants.IBS_OPERATION_HEADER,
+                Constants.IBS_UUID_HEADER,
+                Constants.ACCOUNT_NR_HEADER,
+                Constants.NOTE_NR_HEADER,
+                Constants.CUSTOMER_NR_HEADER,
+                Constants.MISCELLANEOUS_ACCOUNT_APPLICATION_CODE_HEADER,
+                Constants.INTERNAL_POSTING_ID_HEADER,
+                Constants.NOTE_TRANSACTION_REPO_EFF_DATE_HEADER,
+                CacheConstants.USE_CACHE_FLAG,
+                Exchange.HTTP_QUERY);
+    }
 
     @Bean(name = "CamelCustomLogMask")
     SensitiveDataMaskingFormatter sensitiveLogMask(
