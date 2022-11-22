@@ -153,7 +153,7 @@ public class Application {
 
     @Bean
     public KafkaHeaderDeserializerImpl kafkaHeaderDeserializerImpl(){
-        return new KafkaHeaderDeserializerImpl(DataAtRestCryptoDataFormat.DATA_AT_REST_CIPHER_IV_LENGTH);
+        return new KafkaHeaderDeserializerImpl(DataAtRestCryptoDataFormat.DATA_AT_REST_CIPHER_IV_LENGTH,KafkaConstants.RETRIES_HEADER);
     }
 
     @Bean
