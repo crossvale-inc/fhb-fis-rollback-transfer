@@ -66,5 +66,6 @@ public interface Constants {
     String CUSTOMER_NR_HEADER = "customerNr";
     String MISCELLANEOUS_ACCOUNT_APPLICATION_CODE_HEADER = "applicationIdCode";
     String NOTE_TRANSACTION_REPO_EFF_DATE_HEADER = "repositionEffectiveDate";
+    String AUXILIAR_BODY = "auxBodyProperty";
 
 }
