@@ -23,6 +23,7 @@ import com.fhb.fis.camel.processor.EnvelopeWrapperProcessor;
 import com.fhb.fis.camel.processor.SensitiveDataMaskingFormatter;
 import com.fhb.fis.crypto.DataAtRestCryptoConfig;
 import com.fhb.fis.crypto.DataAtRestCryptoDataFormat;
+import com.fhb.fis.kafka.model.KafkaConstants;
 import com.fhb.fis.kafka.processor.KafkaRetriesProcessor;
 import com.fhb.fis.kafka.serialization.KafkaHeaderDeserializerImpl;
 import com.fhb.fis.model.BusinessExceptionHeader;
@@ -66,7 +67,10 @@ public class Application {
                 Constants.INTERNAL_POSTING_ID_HEADER,
                 Constants.NOTE_TRANSACTION_REPO_EFF_DATE_HEADER,
                 CacheConstants.USE_CACHE_FLAG,
-                Exchange.HTTP_QUERY);
+                Exchange.HTTP_QUERY,
+                KafkaConstants.RETRIES_HEADER,
+                KafkaConstants.RETRY_COUNT,
+                KafkaConstants.LIMIT_TIME_HEADER);
     }
 
     @Bean(name = "CamelCustomLogMask")
