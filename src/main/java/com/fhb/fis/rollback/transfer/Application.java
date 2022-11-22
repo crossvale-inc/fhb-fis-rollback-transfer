@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
+import org.apache.camel.builder.NoErrorHandlerBuilder;
 import org.apache.camel.spi.DataFormat;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,6 +30,7 @@ import com.fhb.fis.model.CommonInputHeader;
 import com.fhb.fis.model.MessagingInfrastructureHeader;
 import com.fhb.fis.rollback.transfer.routes.IBSServiceRouteBuilder;
 import com.fhb.fis.rollback.transfer.util.Constants;
+import com.fhb.fis.camel.builder.MultiOrchestratedServiceRouteBuilder;
 
 @SpringBootApplication
 public class Application {
@@ -136,7 +138,6 @@ public class Application {
     public KafkaCryptoFormatter kafkaCryptoFormatter(){
         return new KafkaCryptoFormatter();
     }
-
     @Bean
     public RoutesBuilder multiOrchestratedServiceRouteBuilder() {
         return new MultiOrchestratedServiceRouteBuilder(new NoErrorHandlerBuilder());
