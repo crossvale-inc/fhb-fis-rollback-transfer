@@ -38,19 +38,19 @@ public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 
 	@Override
 	public void configureEntryRoute(RouteDefinition fromKafka) {
-        fromKafka
-		.setProperty(Constants.REQUEST_BODY,body())
-		.process("envelopeUnWrapper")
-		.marshal().string()
 		.setProperty(KafkaConstants.LIMIT_TIME_HEADER).header(KafkaConstants.LIMIT_TIME_HEADER)
 		.setProperty(KafkaConstants.RETRIES_HEADER).header(KafkaConstants.RETRIES_HEADER)
 		.log(LoggingLevel.INFO,LOGGER,"Initializing Kafka, headers: ${headers}, body:${body}")
 		.choice()
-			.when(method(MessageFilterDate.class,"isAfterHeaderLimit").isEqualTo(Boolean.FALSE))//Kafka to envelop wrapper
-				.log(LoggingLevel.INFO,LOGGER,"Receiving Kafka event headers: ${headers}, body:${body}")
+		.when(method(MessageFilterDate.class,"isAfterHeaderLimit").isEqualTo(Boolean.FALSE))//Kafka to envelop wrapper
+			.log(LoggingLevel.INFO,LOGGER,"Limit header false")
 				.to(KAFKA_ENTRY_URI)
 			.endChoice()
 			.otherwise()
+				.setProperty(Constants.REQUEST_BODY,body())
+				.process("envelopeUnWrapper")
+				.marshal().string()
+				.log(LoggingLevel.INFO,LOGGER,"Receiving Kafka event headers: ${headers}, body:${body}")
 				.to(ROLLBACK_ENTRY_URI)
 			.endChoice()
 		.end()
