@@ -38,6 +38,7 @@ public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 	@Override
 	public void configureEntryRoute(RouteDefinition fromKafka) {
         fromKafka
+		.setProperty(Constants.REQUEST_BODY,body())
 		.process("envelopeUnWrapper")
 		.marshal().string()
 		.log(LoggingLevel.INFO,LOGGER,"Initializing Kafka, headers: ${headers}, body:${body}")
