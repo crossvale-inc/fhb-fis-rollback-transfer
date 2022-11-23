@@ -18,7 +18,7 @@ public class KafkaRetryRouteBuilder extends OABServiceRouteBuilder{
 
     public static final String KAFKA_RETRY_URI = "direct:KafkaRetry";
 
-    public static final String KAFKA_RETRY_ID = "R02_Kafka_Retry_ID";
+    public static final String KAFKA_RETRY_ID = "R02_Kafka-Retry";
 
     public static final String SET_FAULT_INFO_ROUTE_URI = "direct:set-fault-info";
     public static final String SET_FAULT_INFO_ROUTE_ID = "R07_set-fault-info";
