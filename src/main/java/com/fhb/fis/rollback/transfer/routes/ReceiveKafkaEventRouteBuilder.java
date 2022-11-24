@@ -62,6 +62,7 @@ public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 	public void configureExecuteRollbackRoute(RouteDefinition fromEntry){
 		fromEntry
 		.log(LoggingLevel.INFO,LOGGER,"Receiving Kafka event headers:${headers}, body: ${body}")
+		.setProperty(Constants.APP_PATH,header(Constants.APP_PATH))
 		.choice()
 			.when(PredicateBuilder.and(header(KafkaConstants.ACCCOUNT_TYPE).isEqualTo(KafkaConstants.DEPOSITS),header(KafkaConstants.TYPE).isEqualTo(KafkaConstants.CREDIT)))
 				.to(DepositRollbackRouteBuilder.DO_ROLLBACK_CREDIT_DEPOSIT_URI)
@@ -70,7 +71,7 @@ public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 				.to(DepositRollbackRouteBuilder.DO_ROLLBACK_DEBIT_DEPOSIT_URI)
 			.endChoice()
 			.when(PredicateBuilder.and(header(KafkaConstants.ACCCOUNT_TYPE).isEqualTo(KafkaConstants.LOANS),header(KafkaConstants.TYPE).isEqualTo(KafkaConstants.CREDIT)))
-				.to("direct:LoansNoteRouteBuilder.DO_ROLLBACK_CREDIT_DEPOSIT_URI")
+				.to(LoansRollbackRouteBuilder.DO_ROLLBACK_CREDIT_LOAN_URI)
 			.endChoice()
 			.when(PredicateBuilder.and(header(KafkaConstants.ACCCOUNT_TYPE).isEqualTo(KafkaConstants.LOANS),header(KafkaConstants.TYPE).isEqualTo(KafkaConstants.DEBIT)))
 				.to("direct:LoansNoteRouteBuilder.DO_ROLLBACK_CREDIT_DEPOSIT_URI")

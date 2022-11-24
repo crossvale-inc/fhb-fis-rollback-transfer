@@ -6,10 +6,12 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.function.Supplier;
 
+import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.NoErrorHandlerBuilder;
+import org.apache.camel.processor.aggregate.UseOriginalAggregationStrategy;
 import org.apache.camel.spi.DataFormat;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,6 +35,8 @@ import com.fhb.fis.model.MessagingInfrastructureHeader;
 import com.fhb.fis.rollback.transfer.routes.IBSServiceRouteBuilder;
 import com.fhb.fis.rollback.transfer.util.Constants;
 import com.fhb.fis.camel.builder.MultiOrchestratedServiceRouteBuilder;
+import com.fhb.fis.camel.aggregate.MergeExchangeBodyAggregationStrategy;
+import com.fhb.fis.camel.aggregate.PreservePropertiesAggregationStrategy;
 
 @SpringBootApplication
 public class Application {
@@ -106,7 +110,23 @@ public class Application {
                 "postOnlineDollarTransactions", 
                 "{{deposits.bridge.endpoint}}");
     }
+
+    @Bean
+    public RoutesBuilder loanNoteTransactions() {
+        return new IBSServiceRouteBuilder("getAccountsLNAcctNbrNotesLNNoteNbrTransactions", 
+                "{{loan-note-transactions.version}}", 
+                "getAccountsLNAcctNbrNotesLNNoteNbrTransactions", 
+                "{{loans.bridge.endpoint}}");
+    }
     
+    @Bean
+    public RoutesBuilder postAccountsAcctNbrNotesNoteNbrReversalsImmediate() {
+        return new IBSServiceRouteBuilder("postAccountsAcctNbrNotesNoteNbrReversalsImmediate", 
+                "{{loan-note-reversals-immediate.version}}", 
+                "postAccountsAcctNbrNotesNoteNbrReversalsImmediate", 
+        		"{{loans.bridge.endpoint}}");
+    }
+
     @Bean
     DynamicWhiteListHeaderFilterStrategy headersWhiteList(
             final Environment environment, final CamelContext camelContext)
@@ -163,5 +183,22 @@ public class Application {
     @Bean
     public RoutesBuilder multiOrchestratedServiceRouteBuilder() {
         return new MultiOrchestratedServiceRouteBuilder(new NoErrorHandlerBuilder());
+    }
+    
+    @Bean
+    public AggregationStrategy jsonMergeAggregationStrategy() {
+    	return new PreservePropertiesAggregationStrategy(new MergeExchangeBodyAggregationStrategy(), 
+    	        Constants.TRANSACTION_STATUS);
+    }
+    
+    @Bean
+    public AggregationStrategy useOriginalAggregationStrategy() {
+        return new PreservePropertiesAggregationStrategy(new UseOriginalAggregationStrategy(), 
+            Constants.TRANSACTION_STATUS,
+            Constants.MARK_POSTING_TABLE_DEBIT_AS_FAILED_PROPERTY,
+            Constants.MARK_POSTING_TABLE_CREDIT_AS_FAILED_PROPERTY,
+            Constants.FAULT_CODE,
+            Constants.FAULT_MESSAGE,
+            Constants.STATUS_CODE);
     }
 }

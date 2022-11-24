@@ -1,0 +1,11 @@
+[
+	{
+		"operation": "shift",
+		"spec": {
+			"debitPostedDate": "transactionEffectiveDate",
+			"#800": "transactionCode",
+			"#N": ["skipAutoReversalInd", "reversalLevelInd"],
+			"transactionSequenceNumber": "transactionSequenceNumber"
+		}
+	}
+]
