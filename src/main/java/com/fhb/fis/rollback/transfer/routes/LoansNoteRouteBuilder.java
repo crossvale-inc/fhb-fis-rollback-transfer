@@ -6,12 +6,13 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.RouteDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.fhb.fis.rollback.transfer.exceptions.ErrorCode;
 import com.fhb.fis.rollback.transfer.exceptions.OrchestratedServiceException;
 import com.fhb.fis.rollback.transfer.util.Constants;
 import com.fhb.fis.model.CommonInputHeader;
-
+@Component
 public class LoansNoteRouteBuilder extends RouteBuilder{
 
 
@@ -25,6 +26,8 @@ public class LoansNoteRouteBuilder extends RouteBuilder{
 
     @Override
     public void configure() throws Exception {
+        
+        fromGetLoansNoteTransaction(from(GET_LOAN_NOTE_TRANSACTION_URI).routeId(GET_LOAN_NOTE_TRANSACTION_ID));
         
     }
     
