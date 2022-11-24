@@ -23,7 +23,7 @@ public class LoansRollbackRouteBuilder extends RouteBuilder{
     
     
     public static final String DO_ROLLBACK_DEBIT_LOAN_URI = "direct:do-rollback-loans-debit";
-    public static final String DO_ROLLBACK_DEBIT_LOAN_ID = "RR03_do-rollback-loans-credit";
+    public static final String DO_ROLLBACK_DEBIT_LOAN_ID = "RR03_do-rollback-loans-debit";
 
 
     protected static final String DO_ROLLBACK_CREDIT_LOAN_URI = "direct:do-rollback-loans-credit";
