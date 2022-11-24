@@ -67,5 +67,10 @@ public interface Constants {
     String MISCELLANEOUS_ACCOUNT_APPLICATION_CODE_HEADER = "applicationIdCode";
     String NOTE_TRANSACTION_REPO_EFF_DATE_HEADER = "repositionEffectiveDate";
     String AUXILIAR_BODY = "auxBodyProperty";
+    String REQUESTED_TRANSFER_AMOUNT = "requestedTransferAmount";
+    String LOAN_CURRENT_BALANCE = "loanCurrentBalanceProperty";
+    String TRANSACTION_CODE_PROPERTY = "transactionCodeProperty";
+    String LOAN_NOTE_TRANSACTION_SEQ_NUMBER = "loanNoteTransactionSequenceNr";
+    String LOAN_TRANSACTION_REVERSAL_IND = "R";
 
 }
