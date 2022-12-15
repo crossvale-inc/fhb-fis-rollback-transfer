@@ -1,0 +1,11 @@
+[
+	{
+		"operation": "shift",
+		"spec": {
+			"fromAccount": "cardNr",
+			"amount": "amount.value",
+			"#USD": "amount.currency",
+			"authorizationId": "authorizationId"
+		}
+	}
+]

@@ -45,5 +45,12 @@ public interface TransformationExpressions {
     String CREDIT_HARD_POSTING_ID = "{" + 
             "\"creditInternalPostId\": \"${exchangeProperty[" + Constants.CREDIT_HARD_POSTING_INTERNAL_ID + "]}\"" + 
             "}";
-
+    
+    String FROM_DATE = "{" + 
+            "\"from\": \"${exchangeProperty[" + Constants.FROM_DATE_PROPERTY + "]}\"" + 
+            "}";
+    
+    String TO_DATE = "{" + 
+            "\"to\": \"${exchangeProperty[" + Constants.TO_DATE_PROPERTY + "]}\"" + 
+            "}";
 }

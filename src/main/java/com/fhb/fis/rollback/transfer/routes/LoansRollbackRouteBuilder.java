@@ -19,7 +19,6 @@ public class LoansRollbackRouteBuilder extends RouteBuilder{
     private static final Logger LOGGER = LoggerFactory.getLogger(LoansRollbackRouteBuilder.class);
     
     private final AggregationStrategy jsonMergeAggregationStrategy;
-    private final AggregationStrategy useOriginalAggregationStrategy;
     
     
     public static final String DO_ROLLBACK_DEBIT_LOAN_URI = "direct:do-rollback-loans-debit";
@@ -30,10 +29,9 @@ public class LoansRollbackRouteBuilder extends RouteBuilder{
     protected static final String DO_ROLLBACK_CREDIT_LOAN_ID = "RR03_do-rollback-loans-credit";
     
     @Autowired
-    public LoansRollbackRouteBuilder(final AggregationStrategy jsonMergeAggregationStrategy, final AggregationStrategy useOriginalAggregationStrategy) {
+    public LoansRollbackRouteBuilder(final AggregationStrategy jsonMergeAggregationStrategy) {
         super();
         this.jsonMergeAggregationStrategy = jsonMergeAggregationStrategy;
-        this.useOriginalAggregationStrategy = useOriginalAggregationStrategy;
     }
 
     

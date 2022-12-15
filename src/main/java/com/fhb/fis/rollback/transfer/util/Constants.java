@@ -17,6 +17,7 @@ public interface Constants {
 
     //
     String PUT_BIC_OPERATION_URI = "direct:putInternalTransferPostingIxpid";
+    String KAFKA_BODY = "kafkaBody";
     String REQUEST_BODY = "requestBody";
     //
     String DEBIT_HARD_POSTING_INTERNAL_ID = "debitHardPostingInternalId";
@@ -57,6 +58,9 @@ public interface Constants {
     String FAULT_MESSAGE = "faultMessage";
     String FAULT_STAGE = "faultStage";
 
+    String FROM_DATE_PROPERTY = "fromProperty";
+    String TO_DATE_PROPERTY = "toProperty";
+
     String APP_CODE = "applicationCode";
     String HEADER_MICROSERVICE = "microservice";
     String MARK_POSTING_TABLE_DEBIT_AS_FAILED_PROPERTY = "shouldMarkPostingTableDebitAsFailed";
@@ -72,5 +76,13 @@ public interface Constants {
     String TRANSACTION_CODE_PROPERTY = "transactionCodeProperty";
     String LOAN_NOTE_TRANSACTION_SEQ_NUMBER = "loanNoteTransactionSequenceNr";
     String LOAN_TRANSACTION_REVERSAL_IND = "R";
+    String ROLLBACK_REQUEST_BODY = "rollbackRequestBody";
+    String FROM_APPLICATION_CODE = "fromApplicationCode";
+    String TO_APPLICATION_CODE = "toApplicationCode";
+    Integer CARD_NUMBER_LENGTH = 16;
+    String DEBIT_CARD_AUTHORIZATION_ID = "debitCardAuthorizationId";
+    String SUCCESSFUL_CARD_AUTHORIZATION_RESPONSE = "Approved";
+    String SUCCESSFUL_CARD_AUTHORIZATION_REVERSED = "REVERSED";
 
+    String HAWAII_TIME_ZONE = "US/Hawaii";
 }

@@ -1,0 +1,137 @@
+[
+    {
+      "operation": "modify-default-beta",
+        "spec": {
+          "creditPostedDate": "NOT_POSTED"
+      }
+    },
+	{
+		"operation": "shift",
+		"spec": {
+			"#FAILED": "processingStatus",
+			"fromAccountType": {
+				"DEPOSITS": {
+					"#DP": "postingTypeData.fromAccountType",
+					"@(2,fromLoanNoteOrDepositId)": "postingTypeData.fromDepositId" 
+				},
+				"LOANS": {
+					"#LS": "postingTypeData.fromAccountType",
+					"@(2,fromLoanNoteOrDepositId)": "postingTypeData.fromLoanNoteNr" 
+				},
+				"COMMERCIAL_LOANS": {
+					"#LS": "postingTypeData.fromAccountType",
+					"@(2,fromLoanNoteOrDepositId)": "postingTypeData.fromLoanNoteNr" 
+				},
+				"CARD": {
+					"#CC": "postingTypeData.fromAccountType",
+					"@(2,fromCardExpirationDate)": {
+						"*/*/*": {
+							"$(0,1)": "postingTypeData.TMPfromCardExpirationDate.month",
+							"$(0,2)": "postingTypeData.TMPfromCardExpirationDate.day",
+							"$(0,3)": "postingTypeData.TMPfromCardExpirationDate.year",
+							"$": "postingTypeData.fromCardExpirationDate"
+						}
+					},
+					"@(2,fromCardAuthorizationType)": "postingTypeData.fromCardAuthorizationType"
+				},
+				"MORTGAGE": {
+					"#MLOAN": "postingTypeData.toAccount"
+				}
+			},
+			"fromAccount":  "postingTypeData.fromAccount",
+			"toAccount": "postingTypeData.toAccount",
+			"toAccountType": {
+				"DEPOSITS": {
+					"#DP": "postingTypeData.toAccountType",
+					"@(2,toLoanNoteOrDepositId)": "postingTypeData.toDepositId" 
+				},
+				"LOANS": {
+					"#LS": "postingTypeData.toAccountType",
+					"@(2,toLoanNoteOrDepositId)": "postingTypeData.toLoanNoteNr"
+				},
+				"COMMERCIAL_LOANS": {
+					"#LS": "postingTypeData.toAccountType",
+					"@(2,toLoanNoteOrDepositId)": "postingTypeData.toLoanNoteNr"
+				},
+				"CARD": {
+					"#CC": "postingTypeData.toAccountType"
+				},
+				"MORTGAGE": {
+					"#MLOAN": "postingTypeData.toAccountType"
+				}
+			},
+			"creditTransactionCode": "postingTypeData.transactionCode",
+			"processDate":  {
+				"*/*/*": {
+					"$(0,1)": "postingTypeData.TMPprocessDate.month",
+					"$(0,2)": "postingTypeData.TMPprocessDate.day",
+					"$(0,3)": "postingTypeData.TMPprocessDate.year"
+				}
+			},
+			"creditPostedDate": {
+				"*/*/*": {
+					"$(0,1)": "postingTypeData.TMPpostedDate.month",
+					"$(0,2)": "postingTypeData.TMPpostedDate.day",
+					"$(0,3)": "postingTypeData.TMPpostedDate.year",
+                    "#true": "postingTypeData.posted"
+				},
+        		"NOT_POSTED": {
+          			"#false": "postingTypeData.posted"
+        		}
+			},
+			"#CREDIT": "postingTypeData.type",
+			"#false": "postingTypeData.loans_api_unavail",
+			"transactionHawaiiTimestamp": "postingTypeData.postedDTTMHT",
+			"creditTransactionControlNumber": "postingTypeData.transactionControlNumber",
+			"creditTransactionSourceCode": "postingTypeData.transactionSourceCode"
+		}
+	},
+	{
+		"operation": "modify-default-beta",
+		"spec": {
+			"postingTypeData": {
+				"+fromCardExpirationDate?": "=concat(@(1,TMPfromCardExpirationDate.year),'-',@(1,TMPfromCardExpirationDate.month))",
+				"+processDate": "=concat(@(1,TMPprocessDate.year),'-',@(1,TMPprocessDate.month),'-',@(1,TMPprocessDate.day))",
+				"+postedDate": "=concat(@(1,TMPpostedDate.year),'-',@(1,TMPpostedDate.month),'-',@(1,TMPpostedDate.day))"
+			}
+		}
+	},
+	{
+		"operation": "shift",
+		"spec": {
+			"*": "&",
+			"postingTypeData": {
+				"*": "postingTypeData.&",
+				"postedDate": {
+					"--": {
+						"@(2,postedDate)": "postingTypeData.TMPPostedDateToRemove"
+					},
+					"*": {
+						"@(2,postedDate)": "postingTypeData.postedDate"
+					}
+				},
+				"processDate": {
+					"--": {
+						"@(2,processDate)": "postingTypeData.TMPProcessDateToRemove"
+					},
+					"*": {
+						"@(2,processDate)": "postingTypeData.processDate"
+					}
+				}
+			}
+		}
+	},
+	{
+		"operation": "remove",
+		"spec": {
+			"postingTypeData": {
+				"TMPdate": "",
+				"TMPprocessDate": "",
+				"TMPpostedDate": "",
+				"TMPfromCardExpirationDate": "",
+        		"TMPPostedDateToRemove": "",
+        		"TMPProcessDateToRemove": ""
+			}
+		}
+	}
+]

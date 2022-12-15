@@ -35,10 +35,6 @@ public class DepositRollbackRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         
-        onException()
-            .log(LoggingLevel.ERROR, LOGGER, "{\"Stage\":\"Error\", \"logMessage\": \"Exception controlled. HTTP=${exchangeProperty[statusCode]}, Error=${exchangeProperty[faultCode]}-${exchangeProperty[faultMessage]}\", \"method\":\"/${exchangeProperty["+Constants.APP_PATH+"]}.\", \"channel\":\"${header["+CommonInputHeader.APP_CODE+"]}\", \"customerNr\":\"${property[customerNr]}\", \"amount\":\"${property[amount]}\", \"fromAccount\":\"${property[fromAccount]}\", \"fromAccountType\":\"${property[fromAccountType]}\", \"toAccount\":\"${property[toAccount]}\", \"ToAccountType\":\"${property[toAccountType]}\", \"platform\":\"${header["+Constants.CARD_PLATFORM_PROPERTY+"]}\", \"debitBicId\":\"${property[debitHardPostingInternalId]}\", \"creditBicId\":\"${property[creditHardPostingInternalId]}\", \"statusCode\":\"${header["+Constants.STATUS_CODE+"]}\",\"ibsOperationId\":\"${property["+Constants.IBS_OPERATION_HEADER+"]}\", \"errorCode\":\"${header["+Constants.FAULT_CODE+"]}\", \"errorMessage\":\"${header["+Constants.FAULT_MESSAGE+"]}\"}")
-            .to(KafkaRetryRouteBuilder.KAFKA_RETRY_URI)
-        .end();
         fromDoRollbackCreditDeposit(from(DO_ROLLBACK_CREDIT_DEPOSIT_URI).routeId(DO_ROLLBACK_CREDIT_DEPOSIT_ID));
         fromDoRollbackCreditEmployee(from(DO_ROLLBACK_EMPLOYEE_CREDIT_DEPOSIT_URI).routeId(DO_ROLLBACK_EMPLOYEE_CREDIT_DEPOSIT_ID));
         
