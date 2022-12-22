@@ -11,6 +11,7 @@ import java.util.Properties;
 import java.util.function.Supplier;
 
 import org.apache.camel.RoutesBuilder;
+import org.apache.camel.component.kafka.serde.KafkaHeaderDeserializer;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.JndiRegistry;
 import org.apache.camel.test.junit4.CamelTestSupport;
@@ -19,8 +20,10 @@ import org.junit.contrib.java.lang.system.EnvironmentVariables;
 import org.springframework.mock.env.MockEnvironment;
 
 import com.fhb.fis.camel.builder.OABServiceRouteBuilder;
+import com.fhb.fis.camel.formatter.KafkaCryptoFormatter;
 import com.fhb.fis.crypto.DataAtRestCryptoConfig;
 import com.fhb.fis.kafka.processor.KafkaRetriesProcessor;
+import com.fhb.fis.kafka.serialization.KafkaHeaderDeserializerImpl;
 
 public abstract class RoutesTestSupport extends CamelTestSupport {
     /*
@@ -101,6 +104,8 @@ public abstract class RoutesTestSupport extends CamelTestSupport {
         jndi.bind("envelopeWrapper", app.envelopeWrapper());
         jndi.bind("auditTrailIdSupplier", (Supplier<String>) () -> "3fbfa1a7-0533-26d8-a568-b8cb97edc7f3");
         jndi.bind(KafkaRetriesProcessor.BEAN_NAME, new KafkaRetriesProcessor());
+        jndi.bind(KafkaHeaderDeserializerImpl.BEAN_NAME, app.kafkaHeaderDeserializerImpl());
+        jndi.bind(KafkaCryptoFormatter.BEAN_NAME, app.kafkaCryptoFormatter());
         return jndi;
     }
 
