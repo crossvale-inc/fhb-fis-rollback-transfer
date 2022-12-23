@@ -26,6 +26,7 @@ import com.fhb.fis.camel.processor.SensitiveDataMaskingFormatter;
 import com.fhb.fis.crypto.DataAtRestCryptoConfig;
 import com.fhb.fis.crypto.DataAtRestCryptoDataFormat;
 import com.fhb.fis.kafka.model.KafkaConstants;
+import com.fhb.fis.kafka.processor.KafkaPropertiesFromHeaderProcessor;
 import com.fhb.fis.kafka.processor.KafkaRetriesProcessor;
 import com.fhb.fis.kafka.serialization.KafkaHeaderDeserializerImpl;
 import com.fhb.fis.model.BusinessExceptionHeader;
@@ -201,4 +202,10 @@ public class Application {
             Constants.FAULT_MESSAGE,
             Constants.STATUS_CODE);
     }
+
+    @Bean
+    public KafkaPropertiesFromHeaderProcessor kafkaPropertiesFromHeaderProcessor(){
+        return new KafkaPropertiesFromHeaderProcessor();
+    }
+
 }

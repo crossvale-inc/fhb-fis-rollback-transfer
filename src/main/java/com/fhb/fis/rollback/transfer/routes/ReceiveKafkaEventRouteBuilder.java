@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 import com.fhb.fis.camel.builder.OABServiceRouteBuilder;
 import com.fhb.fis.kafka.filter.MessageFilterDate;
 import com.fhb.fis.kafka.model.KafkaConstants;
+import com.fhb.fis.kafka.processor.KafkaPropertiesFromHeaderProcessor;
 import com.fhb.fis.model.CommonInputHeader;
 import com.fhb.fis.rollback.transfer.exceptions.ErrorCode;
 import com.fhb.fis.rollback.transfer.exceptions.OrchestratedServiceException;
-import com.fhb.fis.rollback.transfer.processors.SetPropertiesProcessor;
 import com.fhb.fis.rollback.transfer.processors.Unexpected50XErrorPredicateFilter;
 import com.fhb.fis.rollback.transfer.util.ApplicationCodes;
 import com.fhb.fis.rollback.transfer.util.Constants;
@@ -117,7 +117,7 @@ public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 			.otherwise()
 				.setProperty(Constants.KAFKA_BODY,body())
 				.process("envelopeUnWrapper")
-				.process(SetPropertiesProcessor.BEAN_NAME)
+				.process(KafkaPropertiesFromHeaderProcessor.BEAN_NAME)
 				.filter(header(KafkaConstants.ROLLBACK_OPERATION).isNotNull())
 					.marshal().string()
 					.log(LoggingLevel.INFO,LOGGER,"Receiving Kafka event headers: ${headers}, body:${body}")
