@@ -25,8 +25,8 @@ import com.fhb.fis.rollback.transfer.util.TransactionStatus;
 @Component
 public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 	
-	//public static final String KAFKA_ENTRY_URI="{{kafka.rollback.uri}}";
-    public static final String KAFKA_ENTRY_URI ="kafka:reversal.topic?brokers=localhost:9092&kafkaHeaderDeserializer=#kafkaHeaderDeserializerImpl";
+	public static final String KAFKA_ENTRY_URI="{{kafka.rollback.uri}}";
+    //public static final String KAFKA_ENTRY_URI ="kafka:reversal.topic?brokers=localhost:9092&kafkaHeaderDeserializer=#kafkaHeaderDeserializerImpl";
 	private static final String KAFKA_ENTRY_ID="R01_kafka";
 	
 
@@ -109,19 +109,28 @@ public class ReceiveKafkaEventRouteBuilder extends OABServiceRouteBuilder{
 		.setProperty(KafkaConstants.LIMIT_TIME_HEADER).header(KafkaConstants.LIMIT_TIME_HEADER)
 		.setProperty(KafkaConstants.RETRIES_HEADER).header(KafkaConstants.RETRIES_HEADER)
 		.log(LoggingLevel.INFO,LOGGER,"Initializing Kafka, headers: ${headers}, body:${body}")
+		.process(ex->{
+			String a = "";
+		})
 		.choice()
-			.when(method(MessageFilterDate.class,"isAfterHeaderLimit").isEqualTo(Boolean.FALSE))//Kafka to envelop wrapper
-				.log(LoggingLevel.INFO,LOGGER,"Limit header false")
-				.to(KAFKA_ENTRY_URI)
-			.endChoice()
-			.otherwise()
+		.when(method(MessageFilterDate.class,"isAfterHeaderLimit").isEqualTo(Boolean.FALSE))//Kafka to envelop wrapper
+			.log(LoggingLevel.INFO,LOGGER,"Limit header false")
+			.to(KAFKA_ENTRY_URI)
+		.endChoice()
+		.otherwise()
+				.process(ex->{
+					String a = "";
+				})
 				.setProperty(Constants.KAFKA_BODY,body())
 				.process("envelopeUnWrapper")
 				.process(KafkaPropertiesFromHeaderProcessor.BEAN_NAME)
+				.process(ex->{
+					String a = "";
+				})
 				.filter(header(KafkaConstants.ROLLBACK_OPERATION).isNotNull())
 					.marshal().string()
 					.log(LoggingLevel.INFO,LOGGER,"Receiving Kafka event headers: ${headers}, body:${body}")
-					.to("${header["+KafkaConstants.ROLLBACK_OPERATION+"]}")
+					.recipientList(header(KafkaConstants.ROLLBACK_OPERATION))
 				.end()
 			.endChoice()
 		.end()

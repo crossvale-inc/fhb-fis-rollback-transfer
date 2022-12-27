@@ -22,8 +22,10 @@ import org.springframework.mock.env.MockEnvironment;
 import com.fhb.fis.camel.builder.OABServiceRouteBuilder;
 import com.fhb.fis.camel.formatter.KafkaCryptoFormatter;
 import com.fhb.fis.crypto.DataAtRestCryptoConfig;
+import com.fhb.fis.kafka.processor.KafkaPropertiesFromHeaderProcessor;
 import com.fhb.fis.kafka.processor.KafkaRetriesProcessor;
 import com.fhb.fis.kafka.serialization.KafkaHeaderDeserializerImpl;
+import com.fhb.fis.rollback.transfer.processors.Unexpected50XErrorPredicateFilter;
 
 public abstract class RoutesTestSupport extends CamelTestSupport {
     /*
@@ -102,10 +104,13 @@ public abstract class RoutesTestSupport extends CamelTestSupport {
         jndi.bind(OABServiceRouteBuilder.DATA_AT_REST_ID, app.dataAtRestCryptoDataFormat(dataAtRestCryptoConfig));
         jndi.bind("headersWhiteList", app.headersWhiteList(mockEnvironment, new DefaultCamelContext()));
         jndi.bind("envelopeWrapper", app.envelopeWrapper());
+        jndi.bind("envelopeUnWrapper", app.envelopeUnWrapper());
         jndi.bind("auditTrailIdSupplier", (Supplier<String>) () -> "3fbfa1a7-0533-26d8-a568-b8cb97edc7f3");
         jndi.bind(KafkaRetriesProcessor.BEAN_NAME, new KafkaRetriesProcessor());
         jndi.bind(KafkaHeaderDeserializerImpl.BEAN_NAME, app.kafkaHeaderDeserializerImpl());
         jndi.bind(KafkaCryptoFormatter.BEAN_NAME, app.kafkaCryptoFormatter());
+        jndi.bind(KafkaPropertiesFromHeaderProcessor.BEAN_NAME, app.kafkaPropertiesFromHeaderProcessor());
+        jndi.bind(Unexpected50XErrorPredicateFilter.BEAN_ID, new Unexpected50XErrorPredicateFilter());
         return jndi;
     }
 
