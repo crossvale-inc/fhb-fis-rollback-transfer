@@ -60,4 +60,4 @@ data:
     kafka.exception.topic=business.exception
     business.exception.endpoint=direct:business-exception
     kafka.reversal.uri=direct:reversal
-    kafka.update.bic.uri=drect:bic
+    kafka.update.bic.uri=direct:bic
