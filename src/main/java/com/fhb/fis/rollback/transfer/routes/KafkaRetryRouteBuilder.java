@@ -63,19 +63,22 @@ public class KafkaRetryRouteBuilder extends OABServiceRouteBuilder{
             //Set fault info
             fromFault
             .routeId(SET_FAULT_INFO_ROUTE_ID)
-            //Set error message property if present
-            .filter().jsonpath("$.fault.message", true)
-                .setProperty(Constants.FAULT_ERROR_MESSAGE).jsonpath("$.fault.message")
-            .end()
-            //Set error code property if present
-            .filter().jsonpath("$.fault.code", true)
-                .setProperty(Constants.FAULT_ERROR_CODE).jsonpath("$.fault.code")
-            .end()
-            //Set the http code replied by the SOR
-            .filter().jsonpath("$.fault.transportErrorCode", true)
-	            .setProperty(Constants.STATUS_CODE).jsonpath("$.fault.transportErrorCode", true)
-            .end()
-	        .log(LoggingLevel.INFO, LOGGER, "{\"Stage\":\"Error\", \"method\":\"/${exchangeProperty["+Constants.APP_PATH+"]}.\", \"channel\":\"${exchangeProperty["+Constants.APP_CODE+"]}\", \"customerNr\":\"${property[customerNr]}\", \"amount\":\"${property[amount]}\", \"fromAccount\":\"${property[fromAccount]}\", \"fromAccountType\":\"${property[fromAccountType]}\", \"toAccount\":\"${property[toAccount]}\", \"ToAccountType\":\"${property[toAccountType]}\", \"platform\":\"${exchangeProperty["+Constants.CARD_PLATFORM_PROPERTY+"]}\", \"debitBicId\":\"${property[debitHardPostingInternalId]}\", \"creditBicId\":\"${property[creditHardPostingInternalId]}\", \"statusCode\":\"${exchangeProperty["+Constants.STATUS_CODE+"]}\",\"ibsOperationId\":\"${property["+Constants.IBS_OPERATION_HEADER+"]}\", \"errorCode\":\"${exchangeProperty["+Constants.FAULT_CODE+"]}\", \"errorMessage\":\"${exchangeProperty["+Constants.FAULT_MESSAGE+"]}\"}");
+            .onException()
+                .log(LoggingLevel.INFO, LOGGER, "Error trying to set fault body: ${body}")
+                .end()
+                //Set error message property if present
+                .filter().jsonpath("$.fault.message", true)
+                    .setProperty(Constants.FAULT_ERROR_MESSAGE).jsonpath("$.fault.message")
+                .end()
+                //Set error code property if present
+                .filter().jsonpath("$.fault.code", true)
+                    .setProperty(Constants.FAULT_ERROR_CODE).jsonpath("$.fault.code")
+                .end()
+                //Set the http code replied by the SOR
+                .filter().jsonpath("$.fault.transportErrorCode", true)
+	                .setProperty(Constants.STATUS_CODE).jsonpath("$.fault.transportErrorCode", true)
+                .end()
+                .log(LoggingLevel.INFO, LOGGER, "{\"Stage\":\"Error\", \"method\":\"/${exchangeProperty["+Constants.APP_PATH+"]}.\", \"channel\":\"${exchangeProperty["+Constants.APP_CODE+"]}\", \"customerNr\":\"${property[customerNr]}\", \"amount\":\"${property[amount]}\", \"fromAccount\":\"${property[fromAccount]}\", \"fromAccountType\":\"${property[fromAccountType]}\", \"toAccount\":\"${property[toAccount]}\", \"ToAccountType\":\"${property[toAccountType]}\", \"platform\":\"${exchangeProperty["+Constants.CARD_PLATFORM_PROPERTY+"]}\", \"debitBicId\":\"${property[debitHardPostingInternalId]}\", \"creditBicId\":\"${property[creditHardPostingInternalId]}\", \"statusCode\":\"${exchangeProperty["+Constants.STATUS_CODE+"]}\",\"ibsOperationId\":\"${property["+Constants.IBS_OPERATION_HEADER+"]}\", \"errorCode\":\"${exchangeProperty["+Constants.FAULT_CODE+"]}\", \"errorMessage\":\"${exchangeProperty["+Constants.FAULT_MESSAGE+"]}\"}");
     }
 
 }
