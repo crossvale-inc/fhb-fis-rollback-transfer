@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.fhb.fis.camel.builder.BusinessExceptionRouteConfigurable;
 import com.fhb.fis.camel.builder.OABServiceRouteBuilder;
 import com.fhb.fis.kafka.model.KafkaConstants;
 import com.fhb.fis.kafka.processor.KafkaRetriesProcessor;
@@ -53,7 +54,7 @@ public class KafkaRetryRouteBuilder extends OABServiceRouteBuilder{
         .otherwise()
             .log(LoggingLevel.INFO, LOGGER, "Retries exceeded retries ${header["+KafkaConstants.RETRIES_HEADER+"]}")
             .to(SET_FAULT_INFO_ROUTE_URI)
-            .to(BusinessExceptionRouteBuilder.ENTRY_BUSINESS_EXCEPTION_URI)
+            .to(BusinessExceptionRouteConfigurable.ENTRY_BUSINESS_EXCEPTION_URI)
         .endChoice()
         .end();
     }
