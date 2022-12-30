@@ -63,9 +63,9 @@ public class KafkaRetryRouteBuilder extends OABServiceRouteBuilder{
             //Set fault info
             fromFault
             .routeId(SET_FAULT_INFO_ROUTE_ID)
-            .onException()
+            .onException(Exception.class)
                 .log(LoggingLevel.INFO, LOGGER, "Error trying to set fault body: ${body}")
-                .end()
+            .end()
                 //Set error message property if present
                 .filter().jsonpath("$.fault.message", true)
                     .setProperty(Constants.FAULT_ERROR_MESSAGE).jsonpath("$.fault.message")
