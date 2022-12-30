@@ -6,7 +6,7 @@ import org.junit.Test;
 import com.fhb.fis.rollback.transfer.ApplicationTestSupport;
 
 public class ApplicationTestKafka extends ApplicationTestSupport{
-
+    @Ignore
     @Test
     public void testingKafka() throws InterruptedException{
         while(true){
