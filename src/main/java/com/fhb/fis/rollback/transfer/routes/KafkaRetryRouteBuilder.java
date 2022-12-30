@@ -54,6 +54,7 @@ public class KafkaRetryRouteBuilder extends OABServiceRouteBuilder{
         .otherwise()
             .log(LoggingLevel.INFO, LOGGER, "Retries exceeded retries ${header["+KafkaConstants.RETRIES_HEADER+"]}")
             .to(SET_FAULT_INFO_ROUTE_URI)
+            .setProperty("supportRequest",constant("o-fhb-funds-transfer"))
             .to(BusinessExceptionRouteConfigurable.ENTRY_BUSINESS_EXCEPTION_URI)
         .endChoice()
         .end();
